@@ -65,7 +65,7 @@ jobs:
       - name: Upload installable APK
         uses: actions/upload-artifact@v4
         with:
-          name: GalleryFlow-v0.18.0-debug-APK
+          name: GalleryFlow-v0.19.0-debug-APK
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 30
