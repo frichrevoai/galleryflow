@@ -1,0 +1,21 @@
+<resources>
+    <style name="AppTheme" parent="android:style/Theme.Material.NoActionBar">
+        <item name="android:fontFamily">sans-serif</item><item name="android:textAppearanceListItem">@style/CompactListText</item>
+        <item name="android:windowTitleStyle">@style/BoldDialogTitle</item>
+        <item name="android:colorAccent">#F5C66B</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowBackground">#10171D</item>
+        <item name="android:navigationBarColor">#10171D</item>
+        <item name="android:statusBarColor">#10171D</item>
+    </style>
+    <style name="BoldDialogTitle" parent="android:style/TextAppearance.Material.Title"><item name="android:textStyle">bold</item></style>
+    <style name="CompactListText" parent="android:style/TextAppearance.Material.Body1"><item name="android:textSize">13sp</item></style>
+    <style name="AppThemeLight" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:fontFamily">sans-serif</item><item name="android:colorAccent">#795500</item>
+        <item name="android:windowBackground">#F6F7F9</item><item name="android:statusBarColor">#F6F7F9</item><item name="android:navigationBarColor">#F6F7F9</item>
+        <item name="android:windowLightStatusBar">true</item><item name="android:windowLightNavigationBar">true</item>
+        <item name="android:textAppearanceListItem">@style/CompactListText</item><item name="android:textAppearanceListItemSmall">@style/CompactListText</item>
+    </style>
+</resources>

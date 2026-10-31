@@ -1,0 +1,13 @@
+plugins { id 'com.android.application' }
+android {
+    namespace 'com.edward.galleryflow'
+    compileSdk 35
+    defaultConfig {
+        applicationId 'com.edward.galleryflow'
+        minSdk 29
+        targetSdk 35
+        versionCode 18
+        versionName '0.18.0'
+    }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+}

@@ -1,0 +1,16 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <application android:hardwareAccelerated="true" android:label="Gallery Flow" android:icon="@drawable/ic_launcher" android:theme="@style/AppTheme" android:allowBackup="false" android:fullBackupContent="false" android:usesCleartextTraffic="false" android:supportsRtl="true">
+        <provider android:name=".ShareProvider" android:authorities="com.edward.galleryflow.share" android:exported="false" android:grantUriPermissions="true" />
+        <service android:name=".TrashCleanup" android:permission="android.permission.BIND_JOB_SERVICE" android:exported="false" />
+        <provider android:name=".TrashProvider" android:authorities="com.edward.galleryflow.trash" android:exported="false" android:grantUriPermissions="false" />
+        <provider android:name=".ArchiveProvider" android:authorities="com.edward.galleryflow.archives" android:exported="false" android:grantUriPermissions="false" />
+        <activity android:name=".MainActivity" android:exported="true" android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden">
+            <intent-filter><action android:name="android.intent.action.MAIN" /><category android:name="android.intent.category.LAUNCHER" /></intent-filter>
+        </activity>
+    </application>
+</manifest>

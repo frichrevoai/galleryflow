@@ -1,0 +1,13 @@
+package com.edward.galleryflow;
+import android.content.*;import android.database.*;import android.net.Uri;import android.os.ParcelFileDescriptor;import android.provider.OpenableColumns;import org.json.JSONObject;import java.io.*;
+/** Private, read-only preview endpoint; never grants trashed files to other apps. */
+public final class TrashProvider extends ContentProvider {
+ static final String AUTH="com.edward.galleryflow.trash";
+ public boolean onCreate(){return true;}
+ static Uri uri(String id){return new Uri.Builder().scheme("content").authority(AUTH).appendPath(id).build();}
+ private JSONObject record(Uri uri)throws FileNotFoundException{if(uri.getPathSegments().size()!=1)throw new FileNotFoundException();String id=uri.getLastPathSegment();for(JSONObject o:new FileActions(getContext()).records())if(o.optString("id").equals(id)&&o.optString("type").equals("local")){if(!ArchiveStore.admin&&new LockStore(getContext()).locked(o.optString("key")))throw new SecurityException("Trash item is locked");return o;}throw new FileNotFoundException("Trash item unavailable");}
+ public ParcelFileDescriptor openFile(Uri uri,String mode)throws FileNotFoundException{if(!"r".equals(mode))throw new FileNotFoundException("Read only");JSONObject o=record(uri);File root=new File(getContext().getFilesDir(),"trash"),file=new File(root,o.optString("backup"));try{if(!file.getCanonicalFile().getParentFile().equals(root.getCanonicalFile()))throw new FileNotFoundException();}catch(IOException e){throw new FileNotFoundException();}return ParcelFileDescriptor.open(file,ParcelFileDescriptor.MODE_READ_ONLY);}
+ public String getType(Uri uri){try{return record(uri).optString("mime","application/octet-stream");}catch(FileNotFoundException e){return null;}}
+ public Cursor query(Uri uri,String[] projection,String selection,String[] args,String sort){try{JSONObject o=record(uri);String[] cols=projection==null?new String[]{OpenableColumns.DISPLAY_NAME,OpenableColumns.SIZE}:projection;MatrixCursor result=new MatrixCursor(cols);Object[] row=new Object[cols.length];for(int n=0;n<cols.length;n++)row[n]=cols[n].equals(OpenableColumns.DISPLAY_NAME)?o.optString("name"):cols[n].equals(OpenableColumns.SIZE)?new File(new File(getContext().getFilesDir(),"trash"),o.optString("backup")).length():null;result.addRow(row);return result;}catch(FileNotFoundException e){return null;}}
+ public Uri insert(Uri u,ContentValues v){throw new UnsupportedOperationException();}public int update(Uri u,ContentValues v,String s,String[] a){throw new UnsupportedOperationException();}public int delete(Uri u,String s,String[] a){throw new UnsupportedOperationException();}
+}
