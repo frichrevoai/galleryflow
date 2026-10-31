@@ -94,7 +94,7 @@ final class PhotoView extends View {
  private void updateBackground(Bitmap b){
   blurredBackground=null;
   if(b==null||!settings.bool("blurBackground",false))return;
-  final int width=64,height=64;
+  try {final int width=64,height=64;
   Bitmap tiny=Bitmap.createScaledBitmap(b,width,height,true);
   int[] px=new int[width*height],tmp=new int[px.length];tiny.getPixels(px,0,width,0,0,width,height);
   for(int pass=0;pass<3;pass++){
@@ -111,6 +111,11 @@ final class PhotoView extends View {
   }
   blurredBackground=Bitmap.createBitmap(px,width,height,Bitmap.Config.ARGB_8888);
   if(tiny!=b)tiny.recycle();
+  }catch(RuntimeException|OutOfMemoryError failure){
+   // Pixel reads may throw for hardware-backed or recycled bitmaps.
+   blurredBackground=null;
+   android.util.Log.w("GalleryFlow","Blurred background disabled for this image",failure);
+  }
  }
  private void drawImage(Canvas c,Bitmap b,float rotation,float z,float tx,float ty,int alpha){c.save();c.translate(getWidth()/2f+tx,getHeight()/2f+ty);c.rotate(effectiveAngle(b,rotation));float scale=fit(b,rotation)*z;c.scale(scale,scale);paint.setAlpha(alpha);c.drawBitmap(b,-b.getWidth()/2f,-b.getHeight()/2f,paint);paint.setAlpha(255);c.restore();}
  private void page(Canvas c,Bitmap b,float rotation,boolean incoming){
