@@ -1,15 +1,23 @@
 # GalleryFlow
 
-Android gallery application. The next planned build is **v0.18.0**.
+GalleryFlow is an Android image and video gallery app.
 
-## Upload the source
+## Build v0.18.0 on GitHub — upload ONE ZIP
 
-1. Extract `GalleryFlow-v0.18.0-GitHub-Actions.zip` obtained from the previous ChatGPT download.
-2. Open this repository, then choose **Add file → Upload files**.
-3. Upload the *contents* of the extracted folder to this repository (especially `app/`, `build.gradle`, and `settings.gradle`). Do not upload just the ZIP.
-4. Commit the files to `main`.
-5. Go to **Actions → Build GalleryFlow APK**, open the successful run and download the APK artifact.
+1. Download the complete **GalleryFlow-v0.18.0-GitHub-Actions.zip** source archive from ChatGPT.
+2. Open https://github.com/frichrevoai/galleryflow/upload/main
+3. Upload the **ZIP file itself** directly into the repository root. **Do not extract it.**
+4. Click **Commit changes**.
+5. GitHub Actions automatically extracts the source ZIP and builds the Android app.
+6. Open https://github.com/frichrevoai/galleryflow/actions, select the latest successful **Build GalleryFlow APK** run, and download the artifact **GalleryFlow-v0.18.0-debug-APK**.
+7. Extract that artifact and transfer `app-debug.apk` to your Android device for testing.
 
-The GitHub Actions workflow lives at `.github/workflows/build-apk.yml` and will run when Android source/build files are pushed.
+The workflow supports either an uploaded source ZIP at the repository root or an already checked-in `app/` source directory.
 
-**Signing:** The default debug APK may not update an existing installation signed with a different certificate. Keep your installed app and its data until a matching-key release APK is available. Do not commit keystores or passwords.
+### Installing on a phone
+
+The debug APK is signed by GitHub's new temporary debug signing certificate. It will **not** update an existing GalleryFlow app signed with a different certificate. **Do not uninstall the existing app until you've backed up its data.** To create an in-place update, the APK must be signed with the original v0.17.0 signing key. Do not upload keystores/passwords to this public repository.
+
+### Build dependencies
+
+GitHub Actions installs Java 17, Android SDK 35, build tools 35.0.0, and Gradle 8.9. No local Android SDK or PowerShell execution-policy change is necessary.
